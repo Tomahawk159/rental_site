@@ -1,0 +1,1 @@
+Website for rental of construction and household equipment
