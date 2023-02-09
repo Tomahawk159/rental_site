@@ -3,71 +3,18 @@
 {% block content %}
     <div class="row justify-content-center mt-3">
         
-
+{% for category in object_list %}
                 <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
                 <a href="#">
-                    <img src="/static/img/course01.jpg" class="card-img-top" alt="...">
+                    <img src={{ category.picture.url }} class="card-img-top" alt="Что у вас тут происходит">
+                    
                     <div class="card-body">
-                        <h5 class="card-title text-center">Бензоинструмент</h5>
+                        <h5 class="card-title text-center">{{ category.name }}</h5>
                     </div>
+                    
                 </a>
                 </div>
-
-        
-
-                <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-                <a href="#">
-                    <img src="/static/img/course02.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Электроинструмент</h5>
-                    </div>
-                </a>
-                </div>
-
-        
-
-                <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-                <a href="#">
-                    <img src="/static/img/course03.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Садовая техника</h5>
-                    </div>
-                </a>
-                </div>
-
-        
-
-                <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-                <a href="#">
-                    <img src="/static/img/course04.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Строительный инструмент</h5>
-                    </div>
-                </a>
-                </div>
-
-        
-
-                <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-                <a href="#">
-                    <img src="/static/img/course05.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Бытовая техника</h5>
-                    </div>
-                </a>
-                </div>
-
-        
-
-                <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-                <a href="#">
-                    <img src="/static/img/course06.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Прочие вещи</h5>
-                    </div>
-                </a>
-                </div>
-
+{% endfor %}
         
     </div>
     <div class="row justify-content-center align-items-center mt-3 mb-n3">
