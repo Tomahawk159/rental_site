@@ -1,6 +1,8 @@
 {% extends 'mainapp/base.html' %}
+{% load static %}
 
 {% block content %}
+
     <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -9,21 +11,21 @@
         </ol>
         <div class="carousel-inner" style="background-color: #777; font-size: 1.25rem;">
             <div class="carousel-item active">
-                <img src="/static/img/slider001.jpg" class="d-block w-100" alt="" style="opacity: 0.3;">
+                <img src="{% static 'img/slider001.jpg' %}" class="d-block w-100" alt="" style="opacity: 0.3;">
                 <div class="carousel-caption d-none d-md-block">
                     <h3>Будь практичным</h3>
                     <p>Бери инструмент на выгодных условиях</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="/static/img/slider002.jpg" class="d-block w-100" alt="" style="opacity: 0.3;">
+                <img src="{% static 'img/slider002.jpg' %}" class="d-block w-100" alt="" style="opacity: 0.3;">
                 <div class="carousel-caption d-none d-md-block">
                     <h3>В ногу со временем</h3>
                     <p>Пользуйся современным инструментом и обрудованием</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="/static/img/slider003.jpg" class="d-block w-100" alt="" style="opacity: 0.3;">
+                <img src="{% static 'img/slider003.jpg' %}" class="d-block w-100" alt="" style="opacity: 0.3;">
                 <div class="carousel-caption d-none d-md-block">
                     <h3>Инструмент - это мы!</h3>
                     <p>Получай выгодные условия при длительном пользовании</p>
@@ -53,29 +55,22 @@
 
     <h3>Отзывы о нас</h3>
 
-
     <div class="row text-center">
-
-        
-            <div class="col-lg-4">
-                <img src="/static/img/user001.png" alt="" style="max-width: 140px;">
-                <h2>Лера</h2>
-                <p>Отлично!</p>
-            </div>
-        
-            <div class="col-lg-4">
-                <img src="/static/img/user002.png" alt="" style="max-width: 140px;">
-                <h2>Антон</h2>
-                <p>Замечательно!</p>
-            </div>
-        
-            <div class="col-lg-4">
-                <img src="/static/img/user003.png" alt="" style="max-width: 140px;">
-                <h2>Леонард</h2>
-                <p>Гуд!</p>
-            </div>
-        
-
+        <div class="col-lg-4">
+            <img src="{% static 'img/user001.png' %}" alt="" style="max-width: 140px;">
+            <h2>Лера</h2>
+            <p>Отлично!</p>
+        </div>
+        <div class="col-lg-4">
+            <img src="{% static 'img/user002.png' %}" alt="" style="max-width: 140px;">
+            <h2>Антон</h2>
+            <p>Замечательно!</p>
+        </div>
+        <div class="col-lg-4">
+            <img src="{% static 'img/user003.png' %}" alt="" style="max-width: 140px;">
+            <h2>Леонард</h2>
+            <p>Гуд!</p>
+        </div>
     </div>
 
     <div class="my-5">
@@ -88,7 +83,7 @@
             <p>Выбирай из огромной коллекции</p>
         </div>
         <div class="col-md-5">
-            <img src="/static/img/promo01.jpg" alt="" class="w-100 h-100 rounded" style="opacity: 0.7;">
+            <img src="{% static 'img/promo01.jpg' %}" alt="" class="w-100 h-100 rounded" style="opacity: 0.7;">
         </div>
     </div>
 
@@ -98,7 +93,7 @@
 
     <div class="row justify-content-center align-items-center">
         <div class="col-md-5">
-            <img src="/static/img/promo02.jpg" alt="" class="w-100 h-100 rounded" style="opacity: 0.7;">
+            <img src="{% static 'img/promo02.jpg' %}" alt="" class="w-100 h-100 rounded" style="opacity: 0.7;">
         </div>
         <div class="col-md-7">
             <h1>Экономь деньги</h1>
@@ -116,9 +111,9 @@
             <p>Проекты любой сложности становятся легче, если вы с отрудничате с нами. Присоединяйтесь!</p>
         </div>
         <div class="col-md-5">
-            <img src="/static/img/promo03.jpg" alt="" class="w-100 h-100 rounded" style="opacity: 0.7;">
+            <img src="{% static 'img/promo03.jpg' %}" alt="" class="w-100 h-100 rounded" style="opacity: 0.7;">
         </div>
     </div>
 
-    {% endblock %}
+{% endblock %}
  
