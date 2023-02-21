@@ -1,14 +1,15 @@
 from django.urls import path
-from mainapp import views
+
 from mainapp.apps import MainappConfig
+from mainapp.views import ContactView, CatalogListView, AboutUsView, SubCatalogListView
+
 
 app_name = MainappConfig.name
 
 
 urlpatterns = [
-    path('', views.IndexView.as_view()),
-    path('contact/', views.ContactView.as_view()),
-    path('catalog/', views.CatalogListView.as_view()),
-    path('about_us/', views.AboutUsView.as_view()),
-    path('sub_catalog/', views.SubCatalogListView.as_view())
+    path('contact/', ContactView.as_view(), name='contact'),
+    path('catalog/', CatalogListView.as_view(), name='catalog'),
+    path('about_us/', AboutUsView.as_view(), name='about_us'),
+    path('sub_catalog/', SubCatalogListView.as_view())
 ]
