@@ -1,20 +1,25 @@
 from django.shortcuts import render
 # from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView
+
 from mainapp.models import *
+from common.views import TitleMixin
 
 
-class IndexView(TemplateView):
+class IndexView(TitleMixin, TemplateView):
     template_name = 'mainapp/index.html'
+    title = 'Аренда инструмента'
 
 
-class CatalogListView(ListView):
+class CatalogListView(TitleMixin, ListView):
     model = Category
     template_name = 'mainapp/catalog.html'
+    title = 'Каталог'
 
 
-class ContactView(TemplateView):
+class ContactView(TitleMixin, TemplateView):
     template_name = 'mainapp/contact.html'
+    title = 'Контакты'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -30,8 +35,9 @@ class ContactView(TemplateView):
         return context
 
 
-class AboutUsView(TemplateView):
+class AboutUsView(TitleMixin, TemplateView):
     template_name = 'mainapp/about_us.html'
+    title = 'О нас'
 
 
 class SubCatalogListView(ListView):
