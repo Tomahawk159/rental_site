@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 
 from mainapp.apps import MainappConfig
@@ -13,3 +15,6 @@ urlpatterns = [
     path('about_us/', AboutUsView.as_view(), name='about_us'),
     path('sub_catalog/', SubCatalogListView.as_view())
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
