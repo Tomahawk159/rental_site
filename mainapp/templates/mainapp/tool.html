@@ -3,12 +3,12 @@
 {% block content %}
     <div class="row justify-content-center mt-3">
         
-{% for subcategory in object_list %}
+{% for tool in object_list %}
     <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-        <a href="{{ subcategory.id }}">
-            <img src={{ subcategory.picture.url }} class="card-img-top" alt="Что у вас тут происходит">
+        <a href="{{ tool.id }}">
+            <img src={{ tool.picture.url }} class="card-img-top" alt="Что у вас тут происходит">
             <div class="card-body">
-                <h5 class="card-title text-center">{{ subcategory.name }}</h5>
+                <h5 class="card-title text-center">{{ tool.name }} {% if tool.availability %} (В наличии) {% endif %}</h5>
             </div>
         </a>
     </div>

@@ -1,8 +1,9 @@
 from django.shortcuts import render
 # from django.http import HttpResponse
+from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView, ListView
 
-from mainapp.models import *
+from mainapp.models import Category, SubCategory, Tool
 from common.views import TitleMixin
 
 
@@ -15,6 +16,31 @@ class CatalogListView(TitleMixin, ListView):
     model = Category
     template_name = 'mainapp/catalog.html'
     title = 'Каталог'
+
+
+class SubCatalogListView(ListView):
+    model = SubCategory
+    template_name = 'mainapp/sub_catalog.html'
+
+    def get_queryset(self):
+        queryset = super(SubCatalogListView, self).get_queryset()
+        category_id = self.kwargs.get('category_id')
+        return queryset.filter(category=category_id) if category_id else queryset
+
+
+class ToolListView(ListView):
+    model = Tool
+    template_name = 'mainapp/tool.html'
+
+    def get_queryset(self):
+        queryset = super(ToolListView, self).get_queryset()
+        subcategory_id = self.kwargs.get('subcategory_id')
+        return queryset.filter(subcategory=subcategory_id) if subcategory_id else queryset
+
+
+class ToolDetailView(DetailView):
+    template_name = 'mainapp/detail.html'
+    model = Tool
 
 
 class ContactView(TitleMixin, TemplateView):
@@ -38,8 +64,3 @@ class ContactView(TitleMixin, TemplateView):
 class AboutUsView(TitleMixin, TemplateView):
     template_name = 'mainapp/about_us.html'
     title = 'О нас'
-
-
-class SubCatalogListView(ListView):
-    model = SubCategory
-    template_name = 'mainapp/sub_catalog.html'
