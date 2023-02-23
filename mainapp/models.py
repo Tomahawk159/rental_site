@@ -15,7 +15,7 @@ class Category(models.Model):
 
 
 class SubCategory(models.Model):
-    categories = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField('Наименование', max_length=100)
     picture = models.ImageField(
         'Фото', upload_to='subcategory_image', height_field=None, width_field=None, max_length=None)
@@ -25,11 +25,11 @@ class SubCategory(models.Model):
         verbose_name_plural = 'подкатегории'
 
     def __str__(self):
-        return f'{self.name} | {self.categories}'
+        return f'{self.name} | {self.category}'
 
 
 class Tool(models.Model):
-    subcategories = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
     name = models.CharField('Наименование', max_length=150)
     description = models.TextField('Описание')
     picture = models.ImageField(
@@ -41,4 +41,4 @@ class Tool(models.Model):
         verbose_name_plural = 'инструменты'
 
     def __str__(self):
-        return f'{self.name} | {self.subcategories}'
+        return f'{self.name} | {self.subcategory}'
