@@ -32,6 +32,7 @@ class Tool(models.Model):
     subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
     name = models.CharField('Наименование', max_length=150)
     description = models.TextField('Описание')
+    price = models.DecimalField(default=0, max_digits=8, decimal_places=0)
     picture = models.ImageField(
         'Фото', upload_to='tool_image', height_field=None, width_field=None, max_length=None)
     availability = models.BooleanField('Наличие', default=True)

@@ -135,3 +135,6 @@ dmypy.json
 media/category_image/
 media/subcategory_image/
 media/tool_image/
+
+# Fixtures
+mainapp/fixtures

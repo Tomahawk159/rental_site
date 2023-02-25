@@ -1,5 +1,3 @@
-from django.shortcuts import render
-# from django.http import HttpResponse
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView, ListView
 
@@ -12,25 +10,39 @@ class IndexView(TitleMixin, TemplateView):
     title = 'Аренда инструмента'
 
 
-class CatalogListView(TitleMixin, ListView):
+class CategoryListView(TitleMixin, ListView):
     model = Category
     template_name = 'mainapp/catalog.html'
     title = 'Каталог'
 
 
-class SubCatalogListView(ListView):
+class SubCategoryListView(ListView):
     model = SubCategory
     template_name = 'mainapp/sub_catalog.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(SubCategoryListView, self).get_context_data(**kwargs)
+        category_id = self.kwargs.get('category_id')
+        name = Category.objects.get(id=category_id).name
+        context['title'] = f'Каталог - {name}'
+        return context
+
     def get_queryset(self):
-        queryset = super(SubCatalogListView, self).get_queryset()
+        queryset = super(SubCategoryListView, self).get_queryset()
         category_id = self.kwargs.get('category_id')
         return queryset.filter(category=category_id) if category_id else queryset
 
 
 class ToolListView(ListView):
     model = Tool
-    template_name = 'mainapp/tool.html'
+    template_name = 'mainapp/tools.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ToolListView, self).get_context_data(**kwargs)
+        subcategory_id = self.kwargs.get('subcategory_id')
+        name = SubCategory.objects.get(id=subcategory_id).name
+        context['title'] = f'Каталог - {name}'
+        return context
 
     def get_queryset(self):
         queryset = super(ToolListView, self).get_queryset()
@@ -39,12 +51,12 @@ class ToolListView(ListView):
 
 
 class ToolDetailView(DetailView):
-    template_name = 'mainapp/detail.html'
     model = Tool
+    template_name = 'mainapp/tool.html'
 
 
 class ContactView(TitleMixin, TemplateView):
-    template_name = 'mainapp/contact.html'
+    template_name = 'mainapp/contacts.html'
     title = 'Контакты'
 
     def get_context_data(self, **kwargs):
@@ -62,5 +74,5 @@ class ContactView(TitleMixin, TemplateView):
 
 
 class AboutUsView(TitleMixin, TemplateView):
-    template_name = 'mainapp/about_us.html'
+    template_name = 'mainapp/about.html'
     title = 'О нас'
