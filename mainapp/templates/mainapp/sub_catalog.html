@@ -1,87 +1,29 @@
 {% extends 'mainapp/base.html' %}
+{% load static %}
 
 {% block content %}
-    <div class="row justify-content-center mt-3">
-        
-{% for category in object_list %}
-                <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-                <a href="#">
-                    <img src={{ category.picture.url }} class="card-img-top" alt="Что у вас тут происходит">
-                    
-                    <div class="card-body">
-                        <h5 class="card-title text-center">{{ category.name }}</h5>
-                    </div>
-                    
-                </a>
+
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="row mb-5">
+                <div class="col-md-8 col-xl-6 text-center mx-auto">
+                    <h2 class="fw-bold">{{ title }}</h2>
+                    <p class="text-muted">Curae hendrerit donec commodo hendrerit egestas tempus, turpis facilisis nostra nunc. Vestibulum dui eget ultrices.</p>
                 </div>
-{% endfor %}
-        
-
-                {% comment %} <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-                <a href="#">
-                    <img src="/static/img/course02.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Электроинструмент</h5>
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 mx-auto" style="max-width: 900px;">
+                {% for category in object_list %}
+                    <div class="col mb-4">
+                        <div><a href="{{ category.id }}"><img class="rounded img-fluid shadow w-100 fit-cover" src="{{ category.picture.url }}" style="height: 250px;"></a>
+                            <div class="py-4">
+                                <h4 class="fw-bold">{{ category.name }}</h4>
+                                <p class="text-muted">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
+                            </div>
+                        </div>
                     </div>
-                </a>
-                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 
-        
-
-                <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-                <a href="#">
-                    <img src="/static/img/course03.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Садовая техника</h5>
-                    </div>
-                </a>
-                </div>
-
-        
-
-                <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-                <a href="#">
-                    <img src="/static/img/course04.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Строительный инструмент</h5>
-                    </div>
-                </a>
-                </div>
-
-        
-
-                <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-                <a href="#">
-                    <img src="/static/img/course05.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Бытовая техника</h5>
-                    </div>
-                </a>
-                </div>
-
-        
-
-                <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-                <a href="#">
-                    <img src="/static/img/course06.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Прочие вещи</h5>
-                    </div>
-                </a>
-                </div> {% endcomment %}
-
-        
-    </div>
-    <div class="row justify-content-center align-items-center mt-3 mb-n3">
-  <nav aria-label="Page navigation example">
-    <ul class="pagination">
-      <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">Next</a></li>
-    </ul>
-  </nav>
-</div>
-
-{% endblock  %}
+{% endblock %}

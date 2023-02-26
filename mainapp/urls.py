@@ -1,14 +1,22 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
-from mainapp import views
+
 from mainapp.apps import MainappConfig
+from mainapp.views import CategoryListView, SubCategoryListView, ToolListView, ToolDetailView, ContactView, AboutUsView
+
 
 app_name = MainappConfig.name
 
 
 urlpatterns = [
-    path('', views.IndexView.as_view()),
-    path('contact/', views.ContactView.as_view()),
-    path('catalog/', views.CatalogListView.as_view()),
-    path('about_us/', views.AboutUsView.as_view()),
-    path('sub_catalog/', views.SubCatalogListView.as_view())
+    path('contact/', ContactView.as_view(), name='contact'),
+    path('catalog/', CategoryListView.as_view(), name='catalog'),
+    path('catalog/<int:category_id>/', SubCategoryListView.as_view(), name='category'),
+    path('catalog/<int:category_id>/<int:subcategory_id>/', ToolListView.as_view(), name='subcategory'),
+    path('catalog/<int:category_id>/<int:subcategory_id>/<int:pk>', ToolDetailView.as_view(), name='tool'),
+    path('about_us/', AboutUsView.as_view(), name='about_us'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
