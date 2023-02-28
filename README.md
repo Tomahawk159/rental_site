@@ -1,1 +1,15 @@
-Website for rental of construction and household equipment
+# Прокат инструмента
+
+Это репозиторий для исходного кода веб-сервиса, написанного на Django, который позволяет арендовать различные виды инструментов.
+
+## Установка
+
+1. Убедитесь, что у вас установлен Python 3.x.
+2. Склонируйте этот репозиторий на свой компьютер.
+3. Откройте терминал и перейдите в папку с проектом.
+4. Установите виртуальное окружение: `python -m venv venv`.
+5. Активируйте виртуальное окружение: `source venv/bin/activate` (для Linux/Mac) или `venv\Scripts\activate` (для Windows).
+6. Установите необходимые зависимости: `pip install -r requirements.txt`.
+7. Создайте базу данных: `python manage.py migrate`.
+8. Создайте суперпользователя: `python manage.py createsuperuser`.
+9. Запустите локальный сервер: `python manage.py runserver`.
