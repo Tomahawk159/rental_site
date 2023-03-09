@@ -1,13 +1,23 @@
+import random
+
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView, ListView
 
 from mainapp.models import Category, SubCategory, Tool
+from review.models import Review
 from common.views import TitleMixin
 
 
 class IndexView(TitleMixin, TemplateView):
     template_name = 'mainapp/index.html'
     title = 'Аренда инструмента'
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        reviews = Review.objects.filter(is_verified=True)
+        context['reviews'] = random.sample(
+            list(reviews), 3) if len(reviews) >= 3 else []
+        return context
 
 
 class CategoryListView(TitleMixin, ListView):
@@ -71,8 +81,3 @@ class ContactView(TitleMixin, TemplateView):
             }
         ]
         return context
-
-
-class AboutUsView(TitleMixin, TemplateView):
-    template_name = 'mainapp/about.html'
-    title = 'О нас'

@@ -33,13 +33,27 @@
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link active" href="{% url 'index' %}">Главная</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'mainapp:catalog' %}">Каталог</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'review:reviews' %}">Отзывы</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'mainapp:contact' %}">Контакты</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'mainapp:about_us' %}">О нас</a></li>
                 </ul>
                 <a class="btn btn-primary shadow" role="button" href="signup.html">Вход</a>
             </div>
         </div>
     </nav>
+
+    {% if messages or form.non_field_errors %}
+    <div class="alert {% if messages %} alert-success {% else %} alert-warning {% endif %} alert-dismissible fade show w-50 position-absolute top-0 end-0" role="alert"
+        style="margin-top: 100px;">
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% else %}
+            {{ form.non_field_errors }}
+        {% endif %}
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
 
     {% block content %}
 
