@@ -1,0 +1,7 @@
+{% extends 'mainapp/base.html' %}
+{% block content %}
+    {% if reviews %}
+        {% include 'review/review_section.html' %}
+    {% endif %}
+    {% include 'review/review_submit.html' %}
+{% endblock %}

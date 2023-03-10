@@ -1,0 +1,23 @@
+<section class="py-5 mt-5">
+    <div class="container py-5">
+        <div class="row mb-5">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h2 class="fw-bold"><strong>Что люди говорят о нас</strong></h2>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 d-sm-flex justify-content-sm-center">
+            {% for review in reviews %}
+                <div class="col mb-4">
+                    <div class="d-flex flex-column align-items-center align-items-sm-start">
+                        <p class="bg-light border rounded border-light p-4">{{ review.review }}</p>
+                        <div class="d-flex">
+                            <div>
+                                <p class="fw-bold text-primary mb-0">{{ review.name }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
