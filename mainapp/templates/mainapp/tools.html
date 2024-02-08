@@ -19,6 +19,10 @@
                             {% if tool.availability %}
                             <span class="badge bg-primary" style="position:absolute;right:20px;top:10px;">в
                                 наличии</span>
+                            {% else %}
+                            <span class="badge bg-primary" style="position:absolute;right:20px;top:10px;">скоро появится
+                                в наличии
+                            </span>
                             {% endif %}
                             <img class="rounded img-fluid shadow w-100 fit-cover" src="{{ tool.picture.url }}"
                                 style="height: 250px;" />
