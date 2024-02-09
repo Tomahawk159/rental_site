@@ -1,5 +1,6 @@
 import random
-# from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.http import HttpResponse
 
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView, ListView
@@ -10,6 +11,7 @@ from django.views.generic import TemplateView, ListView
 from mainapp.models import Category, SubCategory, Tool
 from review.models import Review
 from common.views import TitleMixin
+from mainapp.forms import ReservationForm
 
 
 class IndexView(TitleMixin, TemplateView):
@@ -92,7 +94,34 @@ class ContactView(TitleMixin, TemplateView):
 class ReservationView(TitleMixin, TemplateView):
     template_name = 'mainapp/reservation.html'
     title = 'Бронирование инструмента'
+    form_class = ReservationForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form_class()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            print('гуд')
+            form.send_telegram_message()
+            # Дополнительные действия после отправки сообщения
+            return HttpResponse('Сообщение отправлено в чат телеграм-бота')
+        else:
+            context = self.get_context_data()
+            context['form'] = form
+            return self.render_to_response(context)
+
+# class ReservationView(TitleMixin, TemplateView):
+#     template_name = 'mainapp/reservation.html'
+#     title = 'Бронирование инструмента'
+#     form_class = ReservationForm
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['form'] = self.form_class()
+#         return context
 
 # async def send_booking_message(request):
 #     bot = Bot(token=config.tg_bot.token)
