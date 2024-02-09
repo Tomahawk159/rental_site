@@ -1,7 +1,11 @@
 import random
+# from django.http import HttpResponse
 
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView, ListView
+
+# from aiogram import Bot
+# from telegram.config_data.config import config
 
 from mainapp.models import Category, SubCategory, Tool
 from review.models import Review
@@ -73,7 +77,9 @@ class ContactView(TitleMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['contacts'] = [
             {
-                'map': 'https://yandex.ru/map-widget/v1/?um=constructor%3A2c34e08a01345d2486370b7a37c0c6b0e13b34a695f0dbe0bfea7603d1d63826&amp;source=constructor',
+                'map': """https://yandex.ru/map-widget/v1/"""
+                       """?um=constructor%3A2c34e08a01345d2486370b7a37c0c6b0e13b34a695f0dbe0bfea7603d1d63826&amp;"""
+                       """source=constructor""",
                 'city': 'Пермь',
                 'phone': '+7-999-11-11111',
                 'email': 'perm@mail.ru',
@@ -81,3 +87,14 @@ class ContactView(TitleMixin, TemplateView):
             }
         ]
         return context
+
+
+class ReservationView(TitleMixin, TemplateView):
+    template_name = 'mainapp/reservation.html'
+    title = 'Бронирование инструмента'
+
+
+# async def send_booking_message(request):
+#     bot = Bot(token=config.tg_bot.token)
+#     await bot.send_message(chat_id=1730221801, text='Бронь')
+#     return HttpResponse('Сообщение отправлено в чат телеграм-бота')
