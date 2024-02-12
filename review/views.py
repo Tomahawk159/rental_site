@@ -18,7 +18,7 @@ class ReviewView(TitleMixin, SuccessMessageMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super(ReviewView, self).get_context_data(**kwargs)
         reviews = Review.objects.all()
-        paginator = Paginator(reviews.filter(is_verified=True), 3)  # Здесь 3 - количество отзывов на одной странице
+        paginator = Paginator(reviews.filter(is_verified=True), 3)  # 3 - количество отзывов на одной странице
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         context['reviews'] = page_obj

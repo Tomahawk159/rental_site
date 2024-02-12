@@ -1,7 +1,11 @@
 {% extends 'mainapp/base.html' %}
 {% block content %}
-    {% if reviews %}
-        {% include 'review/review_section.html' %}
-    {% endif %}
-    {% include 'review/review_submit.html' %}
+{% if reviews %}
+{% include 'review/review_section.html' %}
+{% endif %}
+{% if user.is_authenticated %}
+{% include 'review/review_submit.html' %}
+{% else %}
+<h3 style="text-align: center;">Чтобы ставить свой отзыв, войдите или зарегистрируйтесь</h3>
+{% endif %}
 {% endblock %}
