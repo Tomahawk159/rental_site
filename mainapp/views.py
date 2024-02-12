@@ -1,17 +1,18 @@
 import random
-from django.shortcuts import redirect
-from django.http import HttpResponse
-
+import requests
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView, ListView
 
-# from aiogram import Bot
-# from telegram.config_data.config import config
+from telegram.config_data.config import config
 
 from mainapp.models import Category, SubCategory, Tool
 from review.models import Review
 from common.views import TitleMixin
-from mainapp.forms import ReservationForm
+from mainapp.forms import ReservationForm, FeedbackForm
+from config import settings
+from common.common_variable import CONTACTS
 
 
 class IndexView(TitleMixin, TemplateView):
@@ -70,60 +71,86 @@ class ToolDetailView(DetailView):
     model = Tool
     template_name = 'mainapp/tool.html'
 
-
-class ContactView(TitleMixin, TemplateView):
-    template_name = 'mainapp/contacts.html'
-    title = 'Контакты'
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['contacts'] = [
-            {
-                'map': """https://yandex.ru/map-widget/v1/"""
-                       """?um=constructor%3A2c34e08a01345d2486370b7a37c0c6b0e13b34a695f0dbe0bfea7603d1d63826&amp;"""
-                       """source=constructor""",
-                'city': 'Пермь',
-                'phone': '+7-999-11-11111',
-                'email': 'perm@mail.ru',
-                'adress': 'ул. Ленина 10'
-            }
-        ]
+        context['title'] = 'Инструмент'
         return context
 
 
-class ReservationView(TitleMixin, TemplateView):
-    template_name = 'mainapp/reservation.html'
-    title = 'Бронирование инструмента'
-    form_class = ReservationForm
+class ContactView(TitleMixin, TemplateView):
+    template_name = 'mainapp/contacts.html'
+    form_class = FeedbackForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class()
+        context['title'] = 'Контакты'
+        context['contacts'] = CONTACTS
         return context
+
+    def send_telegram_message(self, form):
+        url = f'https://api.telegram.org/bot{config.tg_bot.token}/sendMessage'
+        data = {
+            'chat_id': 1730221801,
+            'text': f"""Клиент: {form.cleaned_data["name"]} ждёт звонка"""
+                    f"""\nТелефон: {form.cleaned_data["phone"]}"""
+                    f"""\nДоп. информация: {form.cleaned_data["text"]}"""
+        }
+        response = requests.post(url, json=data)
+        if response.status_code == 200:
+            return True
+        return False
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            print('гуд')
-            form.send_telegram_message()
-            # Дополнительные действия после отправки сообщения
-            return HttpResponse('Сообщение отправлено в чат телеграм-бота')
+            if self.send_telegram_message(form):
+                messages.success(request, f'{form.cleaned_data["name"]}, мы свяжемся с вами в ближайшее время.')
+            else:
+                messages.error(request, 'Что-то пошло не так, попробуйте ещё раз')
+            return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
         else:
             context = self.get_context_data()
             context['form'] = form
             return self.render_to_response(context)
 
-# class ReservationView(TitleMixin, TemplateView):
-#     template_name = 'mainapp/reservation.html'
-#     title = 'Бронирование инструмента'
-#     form_class = ReservationForm
 
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['form'] = self.form_class()
-#         return context
+class ReservationView(TemplateView):
+    template_name = 'mainapp/reservation.html'
+    form_class = ReservationForm
 
-# async def send_booking_message(request):
-#     bot = Bot(token=config.tg_bot.token)
-#     await bot.send_message(chat_id=1730221801, text='Бронь')
-#     return HttpResponse('Сообщение отправлено в чат телеграм-бота')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form_class()
+        tool_name = self.kwargs.get('tool_name')
+        context['tool_name'] = tool_name
+        context['title'] = 'Бронирование'
+
+        return context
+
+    def send_telegram_message(self, form, tool_name):
+        url = f'https://api.telegram.org/bot{config.tg_bot.token}/sendMessage'
+        data = {
+            'chat_id': 1730221801,
+            'text': f"""Бронирование: {tool_name}\nИмя: {form.cleaned_data["name"]}"""
+                    f"""\nТелефон: {form.cleaned_data["phone"]}"""
+                    f"""\nДоп. информация: {form.cleaned_data["text"]}"""
+        }
+        response = requests.post(url, json=data)
+        if response.status_code == 200:
+            return True
+        return False
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            tool_name = form.cleaned_data['tool_name']
+            if self.send_telegram_message(form, tool_name):
+                messages.success(request, 'Мы свяжемся с вами в ближайшее время.')
+            else:
+                messages.error(request, 'Что-то пошло не так, попробуйте ещё раз')
+            return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+        else:
+            context = self.get_context_data()
+            context['form'] = form
+            return self.render_to_response(context)

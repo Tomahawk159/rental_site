@@ -23,8 +23,7 @@ urlpatterns = [
      path('catalog/<int:category_id>/', SubCategoryListView.as_view(), name='category'),
      path('catalog/<int:category_id>/<int:subcategory_id>/', ToolListView.as_view(), name='subcategory'),
      path('catalog/<int:category_id>/<int:subcategory_id>/<int:pk>', ToolDetailView.as_view(), name='tool'),
-    #  path('send_booking_message/', send_booking_message, name='send_booking_message'),
-     path('reservation/', ReservationView.as_view(), name='reservation'),
+     path('reservation/<str:tool_name>/', ReservationView.as_view(), name='reservation'),
 ]
 
 if settings.DEBUG:
