@@ -24,6 +24,7 @@ class IndexView(TitleMixin, TemplateView):
         reviews = Review.objects.filter(is_verified=True)
         context['reviews'] = random.sample(
             list(reviews), 3) if len(reviews) >= 3 else []
+        context['contacts'] = CONTACTS
         return context
 
 
@@ -86,6 +87,7 @@ class ContactView(TitleMixin, TemplateView):
         context['form'] = self.form_class()
         context['title'] = 'Контакты'
         context['contacts'] = CONTACTS
+        context['disable_footer'] = True
         return context
 
     def send_telegram_message(self, form):
