@@ -7,17 +7,30 @@
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 d-sm-flex justify-content-sm-center">
             {% for review in reviews %}
-                <div class="col mb-4">
-                    <div class="d-flex flex-column align-items-center align-items-sm-start">
-                        <p class="bg-light border rounded border-light p-4">{{ review.review }}</p>
-                        <div class="d-flex">
-                            <div>
-                                <p class="fw-bold text-primary mb-0">{{ review.name }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Вывод отзывов -->
+            <div>
+                <h3>{{ review.name }}</h3>
+                <p>{{ review.review }}</p>
+            </div>
             {% endfor %}
+        </div>
+        <!-- Пагинация -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if reviews.has_previous %}
+                <a href="?page=1">&laquo; Первая</a>
+                <a href="?page={{ reviews.previous_page_number }}">Предыдущая</a>
+                {% endif %}
+
+                <span class="current">
+                    Страница {{ reviews.number }} из {{ reviews.paginator.num_pages }}.
+                </span>
+
+                {% if reviews.has_next %}
+                <a href="?page={{ reviews.next_page_number }}">Следующая</a>
+                <a href="?page={{ reviews.paginator.num_pages }}">Последняя &raquo;</a>
+                {% endif %}
+            </span>
         </div>
     </div>
 </section>
