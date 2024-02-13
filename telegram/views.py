@@ -1,3 +1,11 @@
-from django.shortcuts import render
+import requests
+from common.common_variable import URL_TG_API
 
-# Create your views here.
+
+def send_telegram_message(data):
+    url = URL_TG_API
+
+    response = requests.post(url, json=data)
+    if response.status_code == 200:
+        return True
+    return False

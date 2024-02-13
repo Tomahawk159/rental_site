@@ -1,4 +1,10 @@
 from django import forms
+from django.core.validators import RegexValidator
+
+phone_validator = RegexValidator(
+    regex=r'^\+?\d{9,15}$',
+    message='Введите корректный номер телефона.'
+)
 
 
 class ReservationForm(forms.Form):
@@ -13,15 +19,16 @@ class ReservationForm(forms.Form):
     )
     phone = forms.CharField(
         required=True,
+        validators=[phone_validator],
         widget=forms.TextInput(
             attrs={
                 'class': 'mb-3 form-control',
-                'placeholder': 'Ваш номер телефона'
+                'placeholder': 'Ваш номер телефона без пробелов'
             }
         ),
     )
     text = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.Textarea(
             attrs={
                 'class': 'mb-3 form-control',
@@ -35,30 +42,3 @@ class ReservationForm(forms.Form):
 
 class FeedbackForm(ReservationForm):
     pass
-    # name = forms.CharField(
-    #     required=True,
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             'class': 'mb-3 form-control',
-    #             'placeholder': 'Ваше имя'
-    #         }
-    #     ),
-    # )
-    # phone = forms.CharField(
-    #     required=True,
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             'class': 'mb-3 form-control',
-    #             'placeholder': 'Ваш номер телефона'
-    #         }
-    #     ),
-    # )
-    # text = forms.CharField(
-    #     required=True,
-    #     widget=forms.Textarea(
-    #         attrs={
-    #             'class': 'mb-3 form-control',
-    #             'placeholder': 'Доп. ниформация'
-    #         }
-    #     ),
-    # )

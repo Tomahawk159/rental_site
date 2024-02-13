@@ -1,18 +1,15 @@
-import random
-import requests
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView, ListView
 
-from telegram.config_data.config import config
+from telegram.views import send_telegram_message
 
 from mainapp.models import Category, SubCategory, Tool
-from review.models import Review
 from common.views import TitleMixin
 from mainapp.forms import ReservationForm, FeedbackForm
 from config import settings
-from common.common_variable import CONTACTS
+from common.common_variable import CONTACTS, TG_CHAT_ID
 
 
 class IndexView(TitleMixin, TemplateView):
@@ -21,9 +18,6 @@ class IndexView(TitleMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        reviews = Review.objects.filter(is_verified=True)
-        context['reviews'] = random.sample(
-            list(reviews), 3) if len(reviews) >= 3 else []
         context['contacts'] = CONTACTS
         return context
 
@@ -90,23 +84,16 @@ class ContactView(TitleMixin, TemplateView):
         context['disable_footer'] = True
         return context
 
-    def send_telegram_message(self, form):
-        url = f'https://api.telegram.org/bot{config.tg_bot.token}/sendMessage'
-        data = {
-            'chat_id': 1730221801,
-            'text': f"""Клиент: {form.cleaned_data["name"]} ждёт звонка"""
-                    f"""\nТелефон: {form.cleaned_data["phone"]}"""
-                    f"""\nДоп. информация: {form.cleaned_data["text"]}"""
-        }
-        response = requests.post(url, json=data)
-        if response.status_code == 200:
-            return True
-        return False
-
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            if self.send_telegram_message(form):
+            data = {
+                    'chat_id': TG_CHAT_ID,
+                    'text': f"""Клиент: {form.cleaned_data["name"]} ждёт звонка"""
+                            f"""\nТелефон: {form.cleaned_data["phone"]}"""
+                            f"""\nДоп. информация: {form.cleaned_data["text"]}"""
+                }
+            if send_telegram_message(data):
                 messages.success(request, f'{form.cleaned_data["name"]}, мы свяжемся с вами в ближайшее время.')
             else:
                 messages.error(request, 'Что-то пошло не так, попробуйте ещё раз')
@@ -130,24 +117,18 @@ class ReservationView(TemplateView):
 
         return context
 
-    def send_telegram_message(self, form, tool_name):
-        url = f'https://api.telegram.org/bot{config.tg_bot.token}/sendMessage'
-        data = {
-            'chat_id': 1730221801,
-            'text': f"""Бронирование: {tool_name}\nИмя: {form.cleaned_data["name"]}"""
-                    f"""\nТелефон: {form.cleaned_data["phone"]}"""
-                    f"""\nДоп. информация: {form.cleaned_data["text"]}"""
-        }
-        response = requests.post(url, json=data)
-        if response.status_code == 200:
-            return True
-        return False
-
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
+
         if form.is_valid():
-            tool_name = form.cleaned_data['tool_name']
-            if self.send_telegram_message(form, tool_name):
+            data = {
+                    'chat_id': TG_CHAT_ID,
+                    'text': f"""Бронирование: {form.cleaned_data['tool_name']}\nИмя: {form.cleaned_data["name"]}"""
+                            f"""\nТелефон: {form.cleaned_data["phone"]}"""
+                            f"""\nДоп. информация: {form.cleaned_data["text"]}"""
+                }
+
+            if send_telegram_message(data):
                 messages.success(request, 'Мы свяжемся с вами в ближайшее время.')
             else:
                 messages.error(request, 'Что-то пошло не так, попробуйте ещё раз')

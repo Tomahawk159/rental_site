@@ -1,3 +1,5 @@
+from telegram.config_data.config import config
+
 
 CONTACTS = {
                 'map': """https://api-maps.yandex.ru/services/constructor/1.0/js/"""
@@ -8,3 +10,7 @@ CONTACTS = {
                 'email': 'perm@mail.ru',
                 'adress': 'ул. Ленина 10'
             }
+
+URL_TG_API = f'https://api.telegram.org/bot{config.tg_bot.token}/sendMessage'
+
+TG_CHAT_ID = 1730221801
