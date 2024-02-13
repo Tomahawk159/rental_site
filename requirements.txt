@@ -5,3 +5,4 @@ Pillow==9.4.0
 aiogram==3.2.0
 environs==9.5.0
 requests==2.31.0
+django-bootstrap5==23.4
